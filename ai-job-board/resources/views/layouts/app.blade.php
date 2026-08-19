@@ -27,6 +27,7 @@
                             <a href="{{ route('jobs.index') }}" class="px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">Jobs</a>
                             <a href="{{ route('my-applications') }}" class="px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">My Applications</a>
                             <a href="{{ route('profile.show') }}" class="px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">My Profile</a>
+                            <a href="{{ route('recommendations') }}" class="px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">AI Recommendations</a>
                             <a href="{{ route('assistant') }}" class="px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">AI Assistant</a>
                         @else
                             <a href="{{ route('admin.dashboard') }}" class="px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">Dashboard</a>
@@ -62,6 +63,7 @@
                     <a href="{{ route('jobs.index') }}" class="block px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">Jobs</a>
                     <a href="{{ route('my-applications') }}" class="block px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">My Applications</a>
                     <a href="{{ route('profile.show') }}" class="block px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">My Profile</a>
+                    <a href="{{ route('recommendations') }}" class="block px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">AI Recommendations</a>
                     <a href="{{ route('assistant') }}" class="block px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">AI Assistant</a>
                 @else
                     <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-md text-sm text-almond hover:bg-black/30">Dashboard</a>

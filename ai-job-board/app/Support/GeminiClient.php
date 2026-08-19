@@ -27,7 +27,9 @@ class GeminiClient
         $url = self::endpoint();
         $response = null;
 
-        for ($attempt = 0; $attempt < 2; $attempt++) {
+        for ($attempt = 0; $attempt < 4; $attempt++) {
+            $lastAttempt = $attempt === 3;
+
             try {
                 $response = Http::withHeaders(['X-goog-api-key' => env('GEMINI_API_KEY')])
                     ->timeout(30)
@@ -37,15 +39,38 @@ class GeminiClient
                     return $response;
                 }
             } catch (ConnectionException $e) {
-                if ($attempt === 1) {
+                if ($lastAttempt) {
                     throw $e;
                 }
             }
 
-            usleep(1200000);
+            if (! app()->environment('testing')) {
+                $delay = self::retryDelayMs($response, $attempt);
+
+                if ($delay > 15000) {
+                    return $response;
+                }
+
+                usleep($delay);
+            }
         }
 
         return $response;
+    }
+
+    private static function retryDelayMs(?Response $response, int $attempt): int
+    {
+        $seconds = (int) (intval($response?->header('Retry-After') ?? 0));
+
+        if ($seconds <= 0 && $response !== null) {
+            $message = (string) data_get($response->json(), 'error.message', '');
+
+            if (preg_match('/(?:retry in|retry after)\s+([\d.]+)\s*s/i', $message, $matches)) {
+                $seconds = (int) ceil((float) $matches[1]);
+            }
+        }
+
+        return $seconds > 0 ? $seconds * 1000 : (1000 * (2 ** $attempt));
     }
 
     public static function extractText(Response $response): ?string
